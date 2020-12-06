@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
 
-interface IMovie {
+export interface IMovie {
   adult: boolean,
   backdrop_path: string,
   genre_ids: number[],
@@ -17,7 +17,7 @@ interface IMovie {
   vote_count: number,
 }
 
-interface IMovieList {
+export interface IMovieList {
   movies: IMovie[],
 }
 

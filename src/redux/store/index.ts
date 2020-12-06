@@ -1,9 +1,13 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import movieReducer from "../reducers/movieReducer";
+import movieReducer, { IMovieList } from "../reducers/movieReducer";
 
-const rootReducer = combineReducers({
+export interface IAppState {
+  movies: IMovieList,
+};
+
+const rootReducer = combineReducers<IAppState>({
   movies: movieReducer,
 })
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Container, createStyles, makeStyles, Theme, Typography, Card, Grid, AppBar, IconButton, InputBase, Toolbar, fade
+  createStyles, makeStyles, Theme, Typography, AppBar, IconButton, InputBase, Toolbar, fade
 } from '@material-ui/core';
 import { Menu as MenuIcon, Search as SearchIcon } from '@material-ui/icons';
 
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     appbar: {
-      backgroundColor: '#282c34',
+      backgroundColor: '#2a2a2a',
     }
   });
 })

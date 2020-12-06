@@ -13,7 +13,7 @@ export interface IMovie {
   release_date: string,
   title: string,
   video: boolean,
-  video_average: number,
+  vote_average: number,
   vote_count: number,
 }
 

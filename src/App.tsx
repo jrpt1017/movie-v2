@@ -1,14 +1,14 @@
 import React from 'react';
 import { Switch, Route } from "react-router-dom";
 import './App.css';
-import { Container, createStyles, makeStyles, Theme } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Dashboard from './components/Dashboard/Dashboard';
 import MainHeader from './components/MainHeader/MainHeader';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
     container: {
-      backgroundColor: '#282c34',
+      backgroundColor: '#343434',
       minHeight: '100vh',
       color: 'white',
     }

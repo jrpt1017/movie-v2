@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
     grid: {
       backgroundColor: '#2e2e2e',
-      width: '25%',
+      width: 500,
       height: 'auto',
       margin: 8,
     },

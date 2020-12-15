@@ -9,9 +9,9 @@ const url = 'https://image.tmdb.org/t/p/w1280';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
-    grid: {
+    card: {
       backgroundColor: '#2e2e2e',
-      width: 500,
+      width: 450,
       height: 'auto',
       margin: 8,
     },
@@ -55,7 +55,7 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
     <React.Fragment>
       <Grid
         container
-        className={classes.grid}
+        className={classes.card}
         direction="row"
       >
         <Grid item xs={6}>
@@ -66,10 +66,13 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
             <Grid item xs={9}>
               <Typography variant="subtitle1">{props.release_date.split('-')[0]}</Typography>
               <Typography variant="h6" className={classes.title}>{props.title}</Typography>
-              <Rating name="read-only" value={props.vote_average / 2} readOnly precision={0.5} size="small" />
+              <Typography component="span">
+                <Rating name="read-only" value={props.vote_average / 2} readOnly precision={0.5} size="small" />
+                {props.vote_average}
+              </Typography>
             </Grid>
             <Grid item xs={3}>
-              <Chip className={classes.chip} label={props.adult ? 'PG-18' : 'PG-13'} />
+              <Chip size="small" className={classes.chip} label={props.adult ? 'PG-18' : 'PG-13'} />
             </Grid>
           </Grid>
           <div className={classes.overview}>

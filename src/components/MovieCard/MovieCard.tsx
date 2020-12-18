@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   createStyles, makeStyles, Theme, Typography, Grid, Button, Chip
 } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { IMovie } from '../../redux/reducers/movieReducer';
+import { getGenres } from '../../service/movies/movieService';
+import { IGenre } from '../../types/movie';
 
 const url = 'https://image.tmdb.org/t/p/w1280';
 
@@ -50,7 +52,6 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const MovieCard: React.FC<IMovie> = (props: IMovie) => {
   const classes = useStyles();
-
   return (
     <React.Fragment>
       <Grid

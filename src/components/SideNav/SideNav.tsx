@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createStyles, ListItemIcon, ListItemText, makeStyles, Theme, Button } from '@material-ui/core';
 import { Drawer, Divider, List, ListItem } from '@material-ui/core';
 import MovieIcon from '@material-ui/icons/Movie';
@@ -6,6 +6,15 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import TvIcon from '@material-ui/icons/Tv';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import { getGenres } from '../../service/movies/movieService';
+import { IGenre } from '../../types/movie';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
+import Collapse from '@material-ui/core/Collapse';
 
 const drawerWidth = 240;
 
@@ -44,12 +53,36 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     icon: {
       color: 'white',
+    },
+    collapse: {
+      paddingBottom: 0,
+      paddingTop: 0,
+      marginLeft: 71,
+      display: 'flex',
     }
   });
 });
 
 const SideNav: React.FC<{}> = () => {
   const classes = useStyles();
+  const [showList, setShowList] = React.useState(false);
+  const [genreList, setGenreList] = React.useState<IGenre[] | undefined>([{
+    id: 1,
+    name: 'Action'
+  }]);
+
+  useEffect(() => {
+    const list = async () => {
+      const genres = await getGenres();
+      setGenreList(genres || []);
+    };
+    list();
+  }, []);
+  console.log(genreList);
+
+  const handleOnClick = () => {
+    setShowList(!showList);
+  };
 
   return (
     <>
@@ -68,10 +101,24 @@ const SideNav: React.FC<{}> = () => {
             <ListItemIcon><MovieIcon classes={{ root: classes.icon }} /></ListItemIcon>
             <ListItemText primary="Movies" />
           </ListItem>
-          <ListItem button key="Filter Genre">
+          <ListItem button key="Filter Genre" onClick={handleOnClick}>
             <ListItemIcon><FilterListIcon classes={{ root: classes.icon }} /></ListItemIcon>
             <ListItemText primary="Filter Genre" />
           </ListItem>
+          <Collapse in={showList} timeout="auto" className={classes.collapse}>
+            {genreList?.length !== 0 && genreList!.map((genre: IGenre) => {
+              return (
+                <React.Fragment key={genre.id}>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={<Checkbox name="checkedA" />}
+                      label={genre.name}
+                    />
+                  </FormGroup>
+                </React.Fragment>
+              )
+            })}
+          </Collapse>
           <ListItem button key="Tv Shows">
             <ListItemIcon><TvIcon classes={{ root: classes.icon }} /></ListItemIcon>
             <ListItemText primary="Tv Shows" />

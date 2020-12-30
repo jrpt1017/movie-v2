@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   createStyles, makeStyles, Theme, Typography, Grid, Button, Chip
 } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { IMovie } from '../../redux/reducers/movieReducer';
-import { getGenres } from '../../service/movies/movieService';
-import { IGenre } from '../../types/movie';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { IAppState } from '../../redux/store';
 
 const url = 'https://image.tmdb.org/t/p/w1280';
 
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) => {
       width: 450,
       height: 'auto',
       margin: 8,
+      position: 'relative',
     },
     img: {
       maxWidth: '100%',
@@ -31,14 +33,9 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     button: {
       color: 'white',
-      width: '90%',
-      position: 'absolute',
-      bottom: 10,
-      right: 0,
-      left: 0,
-      margin: 'auto',
       backgroundColor: '#262626',
       borderRadius: 0,
+      width: 130,
     },
     chip: {
       backgroundColor: '#e5b31d',
@@ -47,11 +44,23 @@ const useStyles = makeStyles((theme: Theme) => {
     title: {
       fontSize: '1rem',
     },
+    btnGroup: {
+      position: 'absolute',
+      display: 'flex',
+      bottom: 10,
+    },
+    favIcon: {
+      color: 'white',
+      backgroundColor: '#262626',
+
+    },
   });
 });
 
 const MovieCard: React.FC<IMovie> = (props: IMovie) => {
   const classes = useStyles();
+  const isLoggedIn = useSelector((state: IAppState) => { return state.user.isLoggedIn; });
+
   return (
     <React.Fragment>
       <Grid
@@ -79,9 +88,14 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
           <div className={classes.overview}>
             <Typography variant="body2">{props.overview}</Typography>
           </div>
-          <Button className={classes.button}>
-            <Typography variant="caption">View Details</Typography>
-          </Button>
+          <div className={classes.btnGroup}>
+            <Button aria-label="delete" size="small" className={classes.favIcon}>
+              <FavoriteBorderIcon fontSize="inherit" />
+            </Button>
+            <Button className={classes.button}>
+              <Typography variant="caption">View Details</Typography>
+            </Button>
+          </div>
         </Grid>
       </Grid>
     </React.Fragment>

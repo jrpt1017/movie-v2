@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import { createStyles, ListItemIcon, ListItemText, makeStyles, Theme, Button } from '@material-ui/core';
 import { Drawer, Divider, List, ListItem } from '@material-ui/core';
 import MovieIcon from '@material-ui/icons/Movie';
@@ -8,13 +9,12 @@ import TvIcon from '@material-ui/icons/Tv';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { getGenres } from '../../service/movies/movieService';
 import { IGenre } from '../../types/movie';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import Collapse from '@material-ui/core/Collapse';
+import { IAppState } from '../../redux/store';
+import { openModal } from '../../redux/actions/modalActions';
 
 const drawerWidth = 240;
 
@@ -65,7 +65,11 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const SideNav: React.FC<{}> = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const [showList, setShowList] = React.useState(false);
+  const isLoggedIn = useSelector((state: IAppState) => { return state.user.isLoggedIn; });
+  const isOpenModal = useSelector((state: IAppState) => { return state.modal.isOpen; });
   const [genreList, setGenreList] = React.useState<IGenre[] | undefined>([{
     id: 1,
     name: 'Action'
@@ -78,10 +82,13 @@ const SideNav: React.FC<{}> = () => {
     };
     list();
   }, []);
-  console.log(genreList);
 
   const handleOnClick = () => {
     setShowList(!showList);
+  };
+
+  const handleSessionClick = () => {
+    dispatch(openModal());
   };
 
   return (
@@ -129,7 +136,7 @@ const SideNav: React.FC<{}> = () => {
           </ListItem>
         </List>
         <Divider />
-        <Button startIcon={<ExitToAppIcon />} variant="contained" className={classes.btnLogout}>Logout</Button>
+        <Button startIcon={<ExitToAppIcon />} variant="contained" className={classes.btnLogout} onClick={handleSessionClick}>{isLoggedIn ? 'LogOut' : 'Login'}</Button>
       </Drawer>
     </>
   )

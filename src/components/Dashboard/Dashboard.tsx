@@ -37,7 +37,9 @@ const Dashboard: React.FC<{}> = () => {
         <div className={classes.wrapper}>
           {movies.map((movie: IMovie) => {
             return (
-              <MovieCard {...movie} />
+              <React.Fragment key={movie.id}>
+                <MovieCard {...movie} />
+              </React.Fragment>
             )
           })}
         </div>

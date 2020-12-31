@@ -10,7 +10,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 const persistConfig = { // configuration object for redux-persist
   key: 'root',
   storage, // define which storage to use
-  whitelist: ['movies'],
+  whitelist: ['user'],
 }
 
 export interface IAppState {

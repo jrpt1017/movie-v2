@@ -1,9 +1,15 @@
 import axios from 'axios';
 import { IGenre } from '../../types/movie';
 
+const key = '26090a5ba19fada0de9ee04a213b3d59';
+
 export const getDiscoverMovies = async () => {
   try {
-    const movies = await axios.get('https://api.themoviedb.org/3/discover/movie?api_key=26090a5ba19fada0de9ee04a213b3d59&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=2');
+    const params = new URLSearchParams();
+    params.append('api_key', key);
+    params.append('include_adult', 'true');
+    params.append('page', '1');
+    const movies = await axios.get('https://api.themoviedb.org/3/discover/movie', { params });
     return movies.data.results;
   } catch (error) {
     console.log(error.message);

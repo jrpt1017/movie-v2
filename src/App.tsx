@@ -4,8 +4,6 @@ import './App.css';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Dashboard from './components/Dashboard/Dashboard';
 import MainHeader from './components/MainHeader/MainHeader';
-// import ModalComp from './components/Modal/ModalComp';
-import SuccessPage from './components/SuccessPage/SuccesPage';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
@@ -22,15 +20,13 @@ const App = () => {
   return (
     <div className={classes.container}>
       <MainHeader />
-      {/* <ModalComp /> */}
       <Switch>
         <Route exact path="/"
           render={() => {
-            return <Redirect to="/dashboard" />
+            return <Redirect to="/movies" />
           }}
         />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/success" component={SuccessPage} />
+        <Route path="/movies" component={Dashboard} />
       </Switch>
     </div>
   );

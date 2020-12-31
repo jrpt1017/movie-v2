@@ -3,12 +3,12 @@ import { IGenre } from '../../types/movie';
 
 const key = '26090a5ba19fada0de9ee04a213b3d59';
 
-export const getDiscoverMovies = async () => {
+export const getDiscoverMovies = async (page?: string) => {
   try {
     const params = new URLSearchParams();
     params.append('api_key', key);
     params.append('include_adult', 'true');
-    params.append('page', '1');
+    params.append('page', page || '1');
     const movies = await axios.get('https://api.themoviedb.org/3/discover/movie', { params });
     return movies.data.results;
   } catch (error) {

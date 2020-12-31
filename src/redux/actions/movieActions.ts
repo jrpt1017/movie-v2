@@ -3,10 +3,10 @@ import { ThunkDispatch } from "redux-thunk";
 import { getDiscoverMovies } from '../../service/movies/movieService';
 import { store } from '../store';
 
-const discoverMoviesAction = async () => {
+const discoverMoviesAction = async (page?: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      const data = await getDiscoverMovies();
+      const data = await getDiscoverMovies(page);
       dispatch({
         type: 'GET_DISCOVER_MOVIES',
         payload: data,
@@ -31,6 +31,6 @@ export const removeFromFavorites = (movieId: number) => {
   }
 };
 
-export const dispatchGetDiscoverMovies = async () => {
-  return (store.dispatch as ThunkDispatch<any, void, AnyAction>)(await discoverMoviesAction());
+export const dispatchGetDiscoverMovies = async (page?: string) => {
+  return (store.dispatch as ThunkDispatch<any, void, AnyAction>)(await discoverMoviesAction(page));
 };

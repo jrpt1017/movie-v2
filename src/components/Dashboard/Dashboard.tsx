@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   createStyles, makeStyles, Theme,
 } from '@material-ui/core';
@@ -43,11 +43,19 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const Dashboard: React.FC<{}> = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [page, setPage] = React.useState(1);
   const movies = useSelector((state: IAppState) => { return state.movies.movies; });
 
   useEffect(() => {
     dispatchGetDiscoverMovies();
   }, []);
+
+  const handlePaginate = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    dispatchGetDiscoverMovies(value.toString());
+  };
 
   return (
     <>
@@ -65,6 +73,7 @@ const Dashboard: React.FC<{}> = () => {
       </div>
       <div className={classes.paginationRoot}>
         <Pagination
+          page={page}
           count={500}
           boundaryCount={3}
           variant="outlined"
@@ -72,12 +81,11 @@ const Dashboard: React.FC<{}> = () => {
           size="large"
           showFirstButton
           showLastButton
+          onChange={handlePaginate}
           renderItem={(item) => (
             <PaginationItem
               color="primary"
               classes={{ rounded: classes.rounded, ellipsis: classes.ellipsis }}
-              // component={Link}
-              // to={`/inbox${item.page === 1 ? '' : `?page=${item.page}`}`}
               {...item}
             />
           )}

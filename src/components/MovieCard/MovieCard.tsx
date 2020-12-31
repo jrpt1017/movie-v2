@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   createStyles, makeStyles, Theme, Typography, Grid, Button, Chip
 } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { IMovie } from '../../redux/reducers/movieReducer';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavEmpty from '@material-ui/icons/FavoriteBorder';
+import FavFilled from '@material-ui/icons/Favorite';
 import { IAppState } from '../../redux/store';
+import { addToFavorites, removeFromFavorites } from '../../redux/actions/movieActions';
 
 const url = 'https://image.tmdb.org/t/p/w1280';
 
@@ -59,7 +61,19 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const MovieCard: React.FC<IMovie> = (props: IMovie) => {
   const classes = useStyles();
-  const isLoggedIn = useSelector((state: IAppState) => { return state.user.isLoggedIn; });
+  const dispatch = useDispatch();
+  const favorites = useSelector((state: IAppState) => { return state.movies.favorites });
+
+  const handleFavoriteOnClick = (movieId: number) => {
+    favorites.includes(movieId) ? dispatch(removeFromFavorites(movieId)) : dispatch(addToFavorites(movieId));
+  };
+
+  const getIcon = (id: number) => {
+    return favorites.includes(id) ? (
+      <FavFilled fontSize="inherit" />
+    ) :
+      <FavEmpty fontSize="inherit" />
+  };
 
   return (
     <React.Fragment>
@@ -89,8 +103,8 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
             <Typography variant="body2">{props.overview}</Typography>
           </div>
           <div className={classes.btnGroup}>
-            <Button aria-label="delete" size="small" className={classes.favIcon}>
-              <FavoriteBorderIcon fontSize="inherit" />
+            <Button aria-label="delete" size="small" className={classes.favIcon} onClick={() => { return handleFavoriteOnClick(props.id); }}>
+              {getIcon(props.id)}
             </Button>
             <Button className={classes.button}>
               <Typography variant="caption">View Details</Typography>

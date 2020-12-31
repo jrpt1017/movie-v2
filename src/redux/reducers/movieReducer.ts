@@ -1,4 +1,5 @@
 import { AnyAction } from "redux";
+import { remove } from "lodash";
 
 export interface IMovie {
   adult: boolean,
@@ -19,10 +20,12 @@ export interface IMovie {
 
 export interface IMovieList {
   movies: IMovie[],
+  favorites: number[],
 }
 
 const initState = {
   movies: [],
+  favorites: [],
 };
 
 const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
@@ -32,6 +35,20 @@ const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
         ...state,
         movies: action.payload,
       }
+    case 'ADD_FAVORITE':
+      return {
+        ...state,
+        favorites: [...state.favorites, action.payload],
+      };
+    case 'REMOVE_FAVORITE':
+      const newArr = remove([...state.favorites], (movieId: number) => {
+        return movieId !== action.payload;
+      });
+      return {
+        ...state,
+        favorites: newArr,
+      };
+
     default: return state;
   }
 };

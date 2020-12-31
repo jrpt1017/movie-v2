@@ -17,6 +17,20 @@ const discoverMoviesAction = async () => {
   };
 }
 
+export const addToFavorites = (movieId: number) => {
+  return {
+    type: 'ADD_FAVORITE',
+    payload: movieId,
+  }
+};
+
+export const removeFromFavorites = (movieId: number) => {
+  return {
+    type: 'REMOVE_FAVORITE',
+    payload: movieId,
+  }
+};
+
 export const dispatchGetDiscoverMovies = async () => {
   return (store.dispatch as ThunkDispatch<any, void, AnyAction>)(await discoverMoviesAction());
 };

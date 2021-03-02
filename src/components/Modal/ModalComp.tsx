@@ -3,9 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Modal, TextField, Backdrop, Fade, Button } from '@material-ui/core';
-import { IAppState, store } from '../../redux/store';
+import { IAppState } from '../../redux/store';
 import { closeModal } from '../../redux/actions/modalActions';
-import { dispatchAuthenticateUser } from '../../redux/actions/modalActions';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
@@ -29,7 +28,6 @@ const ModalComp: React.FC<{}> = () => {
   const history = useHistory();
 
   const isModalOpen = useSelector((state: IAppState) => { return state.modal.isOpen });
-  const requestToken = useSelector((state: IAppState) => { return state.user.requestToken });
   const [name, setName] = React.useState('');
 
   const handleClose = () => {
@@ -38,14 +36,6 @@ const ModalComp: React.FC<{}> = () => {
 
   const handleUserNameChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setName(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    const isSuccess = dispatchAuthenticateUser();
-    if (isSuccess) {
-      const tok = store.getState().user.requestToken;
-      dispatch(closeModal());
-    }
   };
 
   return (
@@ -70,7 +60,7 @@ const ModalComp: React.FC<{}> = () => {
               onChange={(e) => { return handleUserNameChange(e); }}
               value={name}
             />
-            <Button color="primary" variant="contained" onClick={handleSubmit}>Submit</Button>
+            <Button color="primary" variant="contained">Submit</Button>
           </div>
         </Fade>
       </Modal>

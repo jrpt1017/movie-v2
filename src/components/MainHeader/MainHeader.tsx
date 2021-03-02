@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  createStyles, makeStyles, Theme, Typography, AppBar, IconButton, InputBase, Toolbar, fade
+  createStyles, makeStyles, Theme, Typography, AppBar, IconButton, InputBase, Toolbar, fade, List, ListItem,
 } from '@material-ui/core';
 import { Menu as MenuIcon, Search as SearchIcon } from '@material-ui/icons';
 
@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme: Theme) => {
       },
     },
     search: {
-      position: 'relative',
+      position: 'absolute',
+      right: '7rem',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: fade(theme.palette.common.white, 0.15),
       '&:hover': {
@@ -60,10 +61,13 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     appbar: {
       backgroundColor: '#2a2a2a',
+      position: 'relative',
     },
-    menuItems: {
+    menuList: {
       display: 'flex',
-    },
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    }
   });
 })
 
@@ -74,6 +78,10 @@ const MainHeader: React.FC<{}> = () => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
+          <List component="nav" className={classes.menuList}>
+            <ListItem button>Movies</ListItem>
+            <ListItem button>Favorites</ListItem>
+          </List>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

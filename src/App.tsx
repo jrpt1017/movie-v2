@@ -6,6 +6,7 @@ import Backdrop from './components/Backdrop/Backdrop';
 import Dashboard from './components/Dashboard/Dashboard';
 import MainHeader from './components/MainHeader/MainHeader';
 import Movie from './components/Movie/Movie';
+import { RouteTypes } from './types/routeTypes';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
@@ -26,10 +27,11 @@ const App = () => {
       <Switch>
         <Route exact path="/"
           render={() => {
-            return <Redirect to="/movies" />
+            return <Redirect to={RouteTypes.MOVIES} />
           }}
         />
-        <Route path="/movies" component={Dashboard} />
+        <Route path={RouteTypes.MOVIES} component={Dashboard} />
+        <Route path={RouteTypes.FAVORITES} component={Dashboard} />
         <Route path="/movie/:id" component={Movie} />
       </Switch>
     </div>

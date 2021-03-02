@@ -1,25 +1,40 @@
 import { AnyAction, Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { getDiscoverMovies, getMovieDetails } from '../../service/movies/movieService';
+import { getDiscoverMovies, getMovieDetails, getCasts } from '../../service/movies/movieService';
 import { store } from '../store';
-import { MovieAction } from '../../types/movieTypes'
+import { MovieAction } from '../../types/movieTypes';
+
+export const togglePageLoading = (value: boolean) => {
+  return {
+    type: MovieAction.IS_PAGE_LOADING,
+    payload: value,
+  };
+};
+
+const getCastsAction = async (id: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const data = await getCasts(id);
+      dispatch({
+        type: MovieAction.GET_CASTS,
+        payload: data,
+      })
+    } catch (error) {
+
+    }
+  };
+};
 
 const discoverMoviesAction = async (page?: string) => {
   return async (dispatch: Dispatch) => {
-    dispatch({
-      type: MovieAction.IS_PAGE_LOADING,
-      payload: true,
-    });
     try {
+      dispatch(togglePageLoading(true));
       const data = await getDiscoverMovies(page);
       dispatch({
         type: MovieAction.GET_DISCOVER_MOVIES,
         payload: data,
       })
-      dispatch({
-        type: MovieAction.IS_PAGE_LOADING,
-        payload: false,
-      });
+      dispatch(togglePageLoading(false));
     } catch (error) {
 
     }
@@ -47,12 +62,12 @@ const getMovieDetailsAction = async (id: string) => {
       dispatch({
         type: MovieAction.GET_MOVIE_DETAIL,
         payload: data,
-      })
+      });
     } catch (error) {
 
     }
   };
-}
+};
 
 export const dispatchGetDiscoverMovies = async (page?: string) => {
   return (store.dispatch as ThunkDispatch<any, void, AnyAction>)(await discoverMoviesAction(page));
@@ -60,4 +75,8 @@ export const dispatchGetDiscoverMovies = async (page?: string) => {
 
 export const dispatchGetMovieDetail = async (id: string) => {
   return (store.dispatch as ThunkDispatch<any, void, AnyAction>)(await getMovieDetailsAction(id));
+};
+
+export const dispatchGetMovieCasts = async (id: string) => {
+  return (store.dispatch as ThunkDispatch<any, void, AnyAction>)(await getCastsAction(id));
 };

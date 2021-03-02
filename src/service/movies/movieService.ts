@@ -36,3 +36,14 @@ export const getMovieDetails = async (id: string) => {
     console.log(error.message);
   }
 };
+
+export const getCasts = async (id: string) => {
+  try {
+    const params = new URLSearchParams();
+    params.append('api_key', key);
+    const casts = await axios.get(`${baseUrl}/movie/${id}/credits`, { params });
+    return casts.data;
+  } catch (error) {
+
+  }
+};

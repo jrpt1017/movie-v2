@@ -1,45 +1,6 @@
 import { AnyAction } from "redux";
 import { remove } from "lodash";
-import { MovieAction } from '../../types/movieTypes';
-
-export interface IMovie {
-  adult: boolean,
-  backdrop_path: string,
-  genre_ids: number[],
-  id: number,
-  original_language: boolean,
-  original_title: string,
-  overview: string,
-  popularity: number,
-  poster_path: string,
-  release_date: string,
-  title: string,
-  video: boolean,
-  vote_average: number,
-  vote_count: number,
-}
-
-interface IGenre {
-  id: number,
-  name: string,
-}
-
-export interface IMovieDetail {
-  backdrop_path: string,
-  genres: IGenre[],
-  poster_path: string,
-  release_date: string,
-  runtime: number,
-  tagline: string,
-  title: string,
-  vote_average: number,
-};
-
-export interface IMovieList {
-  movies: IMovie[],
-  favorites: number[],
-  movieDetail: IMovieDetail,
-}
+import { IMovie, IMovieDetail, MovieAction } from '../../types/movieTypes';
 
 const initState = {
   movies: [],
@@ -53,8 +14,19 @@ const initState = {
     tagline: '',
     title: '',
     vote_average: 0,
+    casts: {
+      id: 0,
+      cast: [],
+      crew: [],
+    },
   },
 };
+
+export interface IMovieList {
+  movies: IMovie[],
+  favorites: number[],
+  movieDetail: IMovieDetail,
+}
 
 const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
   switch (action.type) {
@@ -81,7 +53,14 @@ const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
         ...state,
         movieDetail: action.payload,
       };
-
+    case MovieAction.GET_CASTS:
+      return {
+        ...state,
+        movieDetail: {
+          ...state.movieDetail,
+          casts: action.payload,
+        },
+      };
     default: return state;
   }
 };

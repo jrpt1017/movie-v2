@@ -5,11 +5,11 @@ import {
   createStyles, makeStyles, Theme, Typography, Grid, Button, Chip
 } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import { IMovie } from '../../redux/reducers/movieReducer';
+import { IMovie } from '../../types/movieTypes';
 import FavEmpty from '@material-ui/icons/FavoriteBorder';
 import FavFilled from '@material-ui/icons/Favorite';
 import { IAppState } from '../../redux/store';
-import { addToFavorites, dispatchGetMovieDetail, removeFromFavorites } from '../../redux/actions/movieActions';
+import { addToFavorites, dispatchGetMovieCasts, dispatchGetMovieDetail, removeFromFavorites } from '../../redux/actions/movieActions';
 
 const url = 'https://image.tmdb.org/t/p/w1280';
 
@@ -80,6 +80,7 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
 
   const handleMovieOnClick = async (movieId: number) => {
     await dispatchGetMovieDetail(String(movieId));
+    await dispatchGetMovieCasts(String(movieId));
     history.push(`/movie/${movieId}`);
   };
 

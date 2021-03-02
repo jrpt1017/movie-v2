@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import { dispatchGetDiscoverMovies } from '../../redux/actions/movieActions';
 import { IAppState } from '../../redux/store';
-import { IMovie } from '../../redux/reducers/movieReducer';
+import { IMovie } from '../../types/movieTypes';
 import MovieCard from '../MovieCard/MovieCard';
 import Pagination from '@material-ui/lab/Pagination';
 import PaginationItem from '@material-ui/lab/PaginationItem';

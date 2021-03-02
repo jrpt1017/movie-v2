@@ -1,9 +1,10 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { dispatchGetMovieDetail } from '../../redux/actions/movieActions';
+import { dispatchGetMovieCasts, dispatchGetMovieDetail, togglePageLoading } from '../../redux/actions/movieActions';
 import { IAppState } from '../../redux/store';
+import Casts from './Casts';
 
 interface IMovie {
   id: string
@@ -14,34 +15,43 @@ const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
     root: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
     detailArea: {
       display: 'flex',
-    }
+    },
+    imgContainer: {
+      display: 'flex',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginTop: 24,
+    },
   });
 })
 
 const Movie: React.FC<{}> = () => {
   const { id } = useParams<IMovie>();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const movie = useSelector((state: IAppState) => { return state.movies.movieDetail; });
+  const movieCasts = useSelector((state: IAppState) => { return state.movies.movieDetail.casts?.cast; });
+
   useEffect(() => {
-    const callMe = async () => {
-      await dispatchGetMovieDetail(id);
-    };
-    callMe();
-  }, [id]);
+    dispatch(togglePageLoading(true));
+    dispatchGetMovieDetail(id);
+    dispatchGetMovieCasts(id);
+    dispatch(togglePageLoading(false));
+  }, [id, dispatch]);
 
   return (
     <div className={classes.root}>
-      <div>
+      <div className={classes.imgContainer}>
         <img src={`${url}/${movie.backdrop_path}`} alt="sample" />
       </div>
       <div className={classes.detailArea}>
-        sample
+        <Casts casts={movieCasts} />
       </div>
-    </div>
+    </div >
   )
 }
 

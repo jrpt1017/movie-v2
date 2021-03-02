@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import movieReducer, { IMovieList } from "../reducers/movieReducer";
-import userReducer, { IUser } from "../reducers/userReducer";
 import modalReducer, { IModal } from "../reducers/modalReducer";
 import backdropReducer, { IBackdrop } from "../reducers/backdropReducer";
 import { persistStore, persistReducer } from 'redux-persist' // imports from redux-persist
@@ -16,14 +15,12 @@ const persistConfig = { // configuration object for redux-persist
 
 export interface IAppState {
   movies: IMovieList,
-  user: IUser,
   modal: IModal,
   backdrop: IBackdrop,
 };
 
 const rootReducer = combineReducers<IAppState>({
   movies: movieReducer,
-  user: userReducer,
   modal: modalReducer,
   backdrop: backdropReducer,
 });

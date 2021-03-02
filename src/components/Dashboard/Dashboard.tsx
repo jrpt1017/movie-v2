@@ -7,7 +7,6 @@ import { dispatchGetDiscoverMovies } from '../../redux/actions/movieActions';
 import { IAppState } from '../../redux/store';
 import { IMovie } from '../../redux/reducers/movieReducer';
 import MovieCard from '../MovieCard/MovieCard';
-import SideNav from '../SideNav/SideNav';
 import Pagination from '@material-ui/lab/Pagination';
 import PaginationItem from '@material-ui/lab/PaginationItem';
 
@@ -60,7 +59,6 @@ const Dashboard: React.FC<{}> = () => {
   return (
     <>
       <div className={classes.root}>
-        {/* <SideNav />/ */}
         <div className={classes.wrapper}>
           {movies.map((movie: IMovie) => {
             return (

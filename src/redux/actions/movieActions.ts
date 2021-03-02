@@ -2,21 +2,22 @@ import { AnyAction, Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { getDiscoverMovies, getMovieDetails } from '../../service/movies/movieService';
 import { store } from '../store';
+import { MovieAction } from '../../types/movieTypes'
 
 const discoverMoviesAction = async (page?: string) => {
   return async (dispatch: Dispatch) => {
     dispatch({
-      type: 'IS_PAGE_LOADING',
+      type: MovieAction.IS_PAGE_LOADING,
       payload: true,
     });
     try {
       const data = await getDiscoverMovies(page);
       dispatch({
-        type: 'GET_DISCOVER_MOVIES',
+        type: MovieAction.GET_DISCOVER_MOVIES,
         payload: data,
       })
       dispatch({
-        type: 'IS_PAGE_LOADING',
+        type: MovieAction.IS_PAGE_LOADING,
         payload: false,
       });
     } catch (error) {
@@ -27,14 +28,14 @@ const discoverMoviesAction = async (page?: string) => {
 
 export const addToFavorites = (movieId: number) => {
   return {
-    type: 'ADD_FAVORITE',
+    type: MovieAction.ADD_FAVORITE,
     payload: movieId,
   }
 };
 
 export const removeFromFavorites = (movieId: number) => {
   return {
-    type: 'REMOVE_FAVORITE',
+    type: MovieAction.REMOVE_FAVORITE,
     payload: movieId,
   }
 };
@@ -44,7 +45,7 @@ const getMovieDetailsAction = async (id: string) => {
     try {
       const data = await getMovieDetails(id);
       dispatch({
-        type: 'GET_MOVIE_DETAIL',
+        type: MovieAction.GET_MOVIE_DETAIL,
         payload: data,
       })
     } catch (error) {

@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { remove } from "lodash";
+import { MovieAction } from '../../types/movieTypes';
 
 export interface IMovie {
   adult: boolean,
@@ -57,17 +58,17 @@ const initState = {
 
 const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
   switch (action.type) {
-    case 'GET_DISCOVER_MOVIES':
+    case MovieAction.GET_DISCOVER_MOVIES:
       return {
         ...state,
         movies: action.payload,
       }
-    case 'ADD_FAVORITE':
+    case MovieAction.ADD_FAVORITE:
       return {
         ...state,
         favorites: [...state.favorites, action.payload],
       };
-    case 'REMOVE_FAVORITE':
+    case MovieAction.REMOVE_FAVORITE:
       const newArr = remove([...state.favorites], (movieId: number) => {
         return movieId !== action.payload;
       });
@@ -75,7 +76,7 @@ const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
         ...state,
         favorites: newArr,
       };
-    case 'GET_MOVIE_DETAIL':
+    case MovieAction.GET_MOVIE_DETAIL:
       return {
         ...state,
         movieDetail: action.payload,

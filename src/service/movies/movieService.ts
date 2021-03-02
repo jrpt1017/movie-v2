@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IGenre } from '../../types/movie';
+import { IGenre } from '../../types/movieTypes';
 
 const key = '26090a5ba19fada0de9ee04a213b3d59';
 const baseUrl = 'https://api.themoviedb.org/3';

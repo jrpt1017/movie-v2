@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   createStyles, makeStyles, Theme, Typography, Grid, Button, Chip
@@ -8,7 +9,7 @@ import { IMovie } from '../../redux/reducers/movieReducer';
 import FavEmpty from '@material-ui/icons/FavoriteBorder';
 import FavFilled from '@material-ui/icons/Favorite';
 import { IAppState } from '../../redux/store';
-import { addToFavorites, removeFromFavorites } from '../../redux/actions/movieActions';
+import { addToFavorites, dispatchGetMovieDetail, removeFromFavorites } from '../../redux/actions/movieActions';
 
 const url = 'https://image.tmdb.org/t/p/w1280';
 
@@ -62,6 +63,8 @@ const useStyles = makeStyles((theme: Theme) => {
 const MovieCard: React.FC<IMovie> = (props: IMovie) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const favorites = useSelector((state: IAppState) => { return state.movies.favorites });
 
   const handleFavoriteOnClick = (movieId: number) => {
@@ -73,6 +76,11 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
       <FavFilled fontSize="inherit" />
     ) :
       <FavEmpty fontSize="inherit" />
+  };
+
+  const handleMovieOnClick = async (movieId: number) => {
+    await dispatchGetMovieDetail(String(movieId));
+    history.push(`/movie/${movieId}`);
   };
 
   return (
@@ -106,7 +114,7 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
             <Button aria-label="delete" size="small" className={classes.favIcon} onClick={() => { return handleFavoriteOnClick(props.id); }}>
               {getIcon(props.id)}
             </Button>
-            <Button className={classes.button}>
+            <Button className={classes.button} onClick={() => { return handleMovieOnClick(props.id); }}>
               <Typography variant="caption">View Details</Typography>
             </Button>
           </div>

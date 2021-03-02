@@ -2,6 +2,7 @@ import axios from 'axios';
 import { IGenre } from '../../types/movie';
 
 const key = '26090a5ba19fada0de9ee04a213b3d59';
+const baseUrl = 'https://api.themoviedb.org/3';
 
 export const getDiscoverMovies = async (page?: string) => {
   try {
@@ -22,5 +23,16 @@ export const getGenres = async (): Promise<IGenre[] | undefined> => {
     return genres.data.genres || [];
   } catch (error) {
     console.log(error.message)
+  }
+};
+
+export const getMovieDetails = async (id: string) => {
+  try {
+    const params = new URLSearchParams();
+    params.append('api_key', key);
+    const movie = await axios.get(`${baseUrl}/movie/${id}`, { params });
+    return movie.data;
+  } catch (error) {
+    console.log(error.message);
   }
 };

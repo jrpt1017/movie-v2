@@ -60,7 +60,7 @@ const Dashboard: React.FC<{}> = () => {
   return (
     <>
       <div className={classes.root}>
-        <SideNav />
+        {/* <SideNav />/ */}
         <div className={classes.wrapper}>
           {movies.map((movie: IMovie) => {
             return (

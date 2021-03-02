@@ -136,7 +136,6 @@ const SideNav: React.FC<{}> = () => {
           </ListItem>
         </List>
         <Divider />
-        <Button startIcon={<ExitToAppIcon />} variant="contained" className={classes.btnLogout} onClick={handleSessionClick}>{isLoggedIn ? 'LogOut' : 'Login'}</Button>
       </Drawer>
     </>
   )

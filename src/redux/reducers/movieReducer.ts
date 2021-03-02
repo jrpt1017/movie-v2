@@ -18,14 +18,41 @@ export interface IMovie {
   vote_count: number,
 }
 
+interface IGenre {
+  id: number,
+  name: string,
+}
+
+export interface IMovieDetail {
+  backdrop_path: string,
+  genres: IGenre[],
+  poster_path: string,
+  release_date: string,
+  runtime: number,
+  tagline: string,
+  title: string,
+  vote_average: number,
+};
+
 export interface IMovieList {
   movies: IMovie[],
   favorites: number[],
+  movieDetail: IMovieDetail,
 }
 
 const initState = {
   movies: [],
   favorites: [],
+  movieDetail: {
+    backdrop_path: '',
+    genres: [],
+    poster_path: '',
+    release_date: '',
+    runtime: 0,
+    tagline: '',
+    title: '',
+    vote_average: 0,
+  },
 };
 
 const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
@@ -47,6 +74,11 @@ const movieReducer = (state: IMovieList = initState, action: AnyAction) => {
       return {
         ...state,
         favorites: newArr,
+      };
+    case 'GET_MOVIE_DETAIL':
+      return {
+        ...state,
+        movieDetail: action.payload,
       };
 
     default: return state;

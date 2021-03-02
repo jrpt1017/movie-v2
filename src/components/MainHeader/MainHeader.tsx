@@ -60,7 +60,10 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     appbar: {
       backgroundColor: '#2a2a2a',
-    }
+    },
+    menuItems: {
+      display: 'flex',
+    },
   });
 })
 
@@ -71,17 +74,6 @@ const MainHeader: React.FC<{}> = () => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Movie App
-          </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Box, Container, } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -22,9 +22,11 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     imgContainer: {
       display: 'flex',
-      marginLeft: 'auto',
-      marginRight: 'auto',
       marginTop: 24,
+    },
+    img: {
+      width: '100%',
+      height: 'auto',
     },
   });
 })
@@ -44,14 +46,14 @@ const Movie: React.FC<{}> = () => {
   }, [id, dispatch]);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.imgContainer}>
-        <img src={`${url}/${movie.backdrop_path}`} alt="sample" />
-      </div>
-      <div className={classes.detailArea}>
+    <Box display="flex" className={classes.root}>
+      <Box>
+        <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
+      </Box>
+      <Box className={classes.detailArea}>
         <Casts casts={movieCasts} />
-      </div>
-    </div >
+      </Box>
+    </Box >
   )
 }
 

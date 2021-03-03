@@ -23,10 +23,28 @@ const useStyles = makeStyles((theme: Theme) => {
     imgContainer: {
       display: 'flex',
       marginTop: 24,
+      position: 'relative',
     },
     img: {
       width: '100%',
       height: 'auto',
+    },
+    overlayDiv: {
+      position: 'absolute',
+      bottom: 0,
+      // background: 'rgba(0, 0, 0, 0.5)', /* Black see-through */
+      backgroundColor: 'white',
+      opacity: 0.5,
+      height: 300,
+      color: '#f1f1f1',
+      width: '-webkit-fill-available',
+      transition: '.5s ease',
+      // opacity: 0,
+      padding: 20,
+      textAlign: 'center',
+      display: 'inherit',
+      background:
+        'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
     },
   });
 })
@@ -47,8 +65,11 @@ const Movie: React.FC<{}> = () => {
 
   return (
     <Box display="flex" className={classes.root}>
-      <Box>
+      <Box className={classes.imgContainer}>
         <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
+        <Box display="flex" className={classes.overlayDiv}>
+          YEAAS
+        </Box>
       </Box>
       <Box className={classes.detailArea}>
         <Casts casts={movieCasts} />

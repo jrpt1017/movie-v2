@@ -1,4 +1,4 @@
-import { createStyles, makeStyles, Theme, Box, Container, } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Box, Container, Typography, Grid } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -30,21 +30,58 @@ const useStyles = makeStyles((theme: Theme) => {
       height: 'auto',
     },
     overlayDiv: {
+      // '&::after': {
+      //   content: "",
+      //   background: 'black',
+      //   position: 'absolute',
+      //   top: 0,
+      //   left: 0,
+      //   width: '100%',
+      //   height: '100%',
+      //   opacity: 0.5
+      // },
       position: 'absolute',
       bottom: 0,
-      // background: 'rgba(0, 0, 0, 0.5)', /* Black see-through */
-      backgroundColor: 'white',
-      opacity: 0.5,
-      height: 300,
-      color: '#f1f1f1',
-      width: '-webkit-fill-available',
-      transition: '.5s ease',
-      // opacity: 0,
-      padding: 20,
+      height: '35%',
+      width: '75%',
       textAlign: 'center',
-      display: 'inherit',
-      background:
-        'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+      background: 'rgba(255,255,255,0.5)',
+      padding: 10,
+      backdropFilter: 'blur(5px)'
+      // color: 'black',
+      // display: 'inherit',
+      // background:
+      //   'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+      // background: 'rgba(0, 0, 0, 0.4)', /* Black see-through */
+      // backgroundColor: 'white',
+      // opacity: 0.5,
+      // opacity: 0,
+      // color: 'white',
+      // transition: '.5s ease',
+    },
+    movieTitle: {
+      fontWeight: 'bold',
+    },
+    containerSubDetail: {
+      gap: '2em',
+      paddingLeft: '0.75em',
+    },
+    textSubDetail: {
+      fontWeight: theme.typography.fontWeightLight,
+      fontSize: theme.typography.pxToRem(18),
+    },
+    containerMainDetail: {
+      paddingLeft: '0.75em',
+      top: '9rem',
+      position: 'absolute',
+    },
+    textMainDetail: {
+      fontWeight: theme.typography.fontWeightMedium,
+      fontSize: theme.typography.pxToRem(20),
+      textAlign: 'justify'
+    },
+    innerContainer: {
+      position: 'relative',
     },
   });
 })
@@ -63,12 +100,57 @@ const Movie: React.FC<{}> = () => {
     dispatch(togglePageLoading(false));
   }, [id, dispatch]);
 
+  const getRunTime = () => {
+    const hrs = Math.floor(movie.runtime / 60);
+    const minutes = movie.runtime % 60;
+
+    return `${hrs}hr ${minutes}min`;
+  };
+
+  const getGenres = () => {
+    return movie.genres.map((genre) => {
+      return genre.name;
+    }).join(', ');
+  };
+
+  const getDate = () => {
+    const date = new Date(movie.release_date);
+    return date.toDateString();
+  };
+
   return (
     <Box display="flex" className={classes.root}>
       <Box className={classes.imgContainer}>
         <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
         <Box display="flex" className={classes.overlayDiv}>
-          YEAAS
+          <Grid container direction="column" id="detail-container">
+            <Grid item xs={6}>
+              <div className={classes.innerContainer}>
+                <Typography variant="h2" className={classes.movieTitle}>
+                  {movie.title} ({movie.release_date.split('-')[0]})
+                </Typography>
+                <Box display="flex" className={classes.containerSubDetail}>
+                  <Typography className={classes.textSubDetail}>
+                    {getRunTime()}
+                  </Typography>|
+                <Typography className={classes.textSubDetail}>
+                    {getGenres()}
+                  </Typography>|
+                <Typography className={classes.textSubDetail}>
+                    {getDate()}
+                  </Typography>
+                </Box>
+                <Box className={classes.containerMainDetail}>
+                  <Typography className={classes.textMainDetail}>
+                    {movie.overview}
+                  </Typography>
+                </Box>
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+
+            </Grid>
+          </Grid>
         </Box>
       </Box>
       <Box className={classes.detailArea}>

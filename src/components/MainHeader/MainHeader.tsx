@@ -1,8 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
-  createStyles, makeStyles, Theme, Typography, AppBar, IconButton, InputBase, Toolbar, fade, List, ListItem,
+  createStyles, makeStyles, Theme, Typography, AppBar, IconButton, InputBase, Toolbar, fade, List, ListItem, Divider
 } from '@material-ui/core';
 import { Menu as MenuIcon, Search as SearchIcon } from '@material-ui/icons';
+import { RouteTypes } from '../../types/routeTypes';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
@@ -63,14 +65,20 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const MainHeader: React.FC<{}> = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleOnclick = (routeType: RouteTypes) => {
+    history.push(routeType)
+  };
 
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
           <List component="nav" className={classes.menuList}>
-            <ListItem button>Movies</ListItem>
-            <ListItem button>Favorites</ListItem>
+            <ListItem button onClick={() => { return handleOnclick(RouteTypes.MOVIES) }}>Movies</ListItem>
+            <Divider />
+            <ListItem button onClick={() => { return handleOnclick(RouteTypes.FAVORITES) }} > Favorites</ListItem>
           </List>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -87,7 +95,7 @@ const MainHeader: React.FC<{}> = () => {
           </div>
         </Toolbar>
       </AppBar>
-    </div>
+    </div >
   );
 };
 

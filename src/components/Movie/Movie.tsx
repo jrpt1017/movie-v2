@@ -1,5 +1,9 @@
 import { createStyles, makeStyles, Theme, Box, Container, Typography, Grid } from '@material-ui/core';
 import React, { useEffect } from 'react'
+import MovieLengthIcon from '@material-ui/icons/AccessTime';
+import BudgetIcon from '@material-ui/icons/AttachMoney';
+import GradeIcon from '@material-ui/icons/Grade';
+import { CircularProgressbar } from "react-circular-progressbar";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dispatchGetMovieCasts, dispatchGetMovieDetail, togglePageLoading } from '../../redux/actions/movieActions';
@@ -30,37 +34,22 @@ const useStyles = makeStyles((theme: Theme) => {
       height: 'auto',
     },
     overlayDiv: {
-      // '&::after': {
-      //   content: "",
-      //   background: 'black',
-      //   position: 'absolute',
-      //   top: 0,
-      //   left: 0,
-      //   width: '100%',
-      //   height: '100%',
-      //   opacity: 0.5
-      // },
       position: 'absolute',
       bottom: 0,
-      height: '35%',
+      height: '26%',
       width: '75%',
       textAlign: 'center',
       background: 'rgba(255,255,255,0.5)',
-      padding: 10,
-      backdropFilter: 'blur(5px)'
-      // color: 'black',
-      // display: 'inherit',
-      // background:
-      //   'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-      // background: 'rgba(0, 0, 0, 0.4)', /* Black see-through */
-      // backgroundColor: 'white',
-      // opacity: 0.5,
-      // opacity: 0,
-      // color: 'white',
-      // transition: '.5s ease',
+      paddingTop: 20,
+      paddingBottom: 20,
+      paddingLeft: 10,
+      paddingRight: 10,
+      backdropFilter: 'blur(20px)',
     },
     movieTitle: {
       fontWeight: 'bold',
+      fontSize: '2.5vw',
+      color: '#2a2626',
     },
     containerSubDetail: {
       gap: '2em',
@@ -69,20 +58,33 @@ const useStyles = makeStyles((theme: Theme) => {
     textSubDetail: {
       fontWeight: theme.typography.fontWeightLight,
       fontSize: theme.typography.pxToRem(18),
+      color: '#2a2626',
     },
     containerMainDetail: {
       paddingLeft: '0.75em',
-      top: '9rem',
-      position: 'absolute',
+      paddingTop: '1rem',
     },
     textMainDetail: {
       fontWeight: theme.typography.fontWeightMedium,
-      fontSize: theme.typography.pxToRem(20),
-      textAlign: 'justify'
+      fontSize: '1 vw',
+      textAlign: 'justify',
+      color: '#2a2626',
     },
     innerContainer: {
       position: 'relative',
+      flexDirection: 'column',
     },
+    vl: {
+      height: '1.75rem',
+      borderLeft: '1px solid',
+    },
+    parentContainer: {
+      flexDirection: 'row',
+    },
+    icon: {
+      fontSize: '7rem',
+      color: '#2a2626'
+    }
   });
 })
 
@@ -110,7 +112,7 @@ const Movie: React.FC<{}> = () => {
   const getGenres = () => {
     return movie.genres.map((genre) => {
       return genre.name;
-    }).join(', ');
+    }).slice(0, 3).join(', ');
   };
 
   const getDate = () => {
@@ -123,32 +125,52 @@ const Movie: React.FC<{}> = () => {
       <Box className={classes.imgContainer}>
         <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
         <Box display="flex" className={classes.overlayDiv}>
-          <Grid container direction="column" id="detail-container">
-            <Grid item xs={6}>
-              <div className={classes.innerContainer}>
-                <Typography variant="h2" className={classes.movieTitle}>
-                  {movie.title} ({movie.release_date.split('-')[0]})
-                </Typography>
-                <Box display="flex" className={classes.containerSubDetail}>
-                  <Typography className={classes.textSubDetail}>
-                    {getRunTime()}
-                  </Typography>|
-                <Typography className={classes.textSubDetail}>
-                    {getGenres()}
-                  </Typography>|
-                <Typography className={classes.textSubDetail}>
-                    {getDate()}
+          <Grid container direction="column" id="detail-container" className={classes.parentContainer}>
+            <Grid container item xs={6}>
+              <Grid container className={classes.innerContainer}>
+                <Grid item>
+                  <Typography variant="h2" className={classes.movieTitle}>
+                    {movie.title} ({movie.release_date.split('-')[0]})
                   </Typography>
-                </Box>
-                <Box className={classes.containerMainDetail}>
+                </Grid>
+                <Grid justify="space-evenly" container item className={classes.containerSubDetail}>
+                  <Grid item>
+                    <Typography className={classes.textSubDetail}>
+                      {getRunTime()}
+                    </Typography>
+                  </Grid>
+                  <div className={classes.vl}>
+                  </div>
+                  <Grid item>
+                    <Typography className={classes.textSubDetail}>
+                      {getGenres()}
+                    </Typography>
+                  </Grid>
+                  <div className={classes.vl}>
+                  </div>
+                  <Grid item>
+                    <Typography className={classes.textSubDetail}>
+                      {getDate()}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item className={classes.containerMainDetail}>
                   <Typography className={classes.textMainDetail}>
                     {movie.overview}
                   </Typography>
-                </Box>
-              </div>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-
+            <Grid container item xs={6}>
+              <Grid item>
+                <MovieLengthIcon className={classes.icon} />
+              </Grid>
+              <Grid item>
+                <BudgetIcon className={classes.icon} />
+              </Grid>
+              <Grid item>
+                <GradeIcon className={classes.icon} />
+              </Grid>
             </Grid>
           </Grid>
         </Box>

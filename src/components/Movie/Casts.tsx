@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme: Theme) => {
       padding: 20,
       textAlign: 'center',
       display: 'inherit',
+      cursor: 'pointer',
     },
   });
 });

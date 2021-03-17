@@ -1,7 +1,8 @@
-import { Box, createStyles, Grid, GridList, makeStyles, Theme, GridListTile, GridListTileBar, Typography } from '@material-ui/core';
+import { Box, createStyles, makeStyles, Theme } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { Cast } from '../../types/movieTypes'
-
+import Carousel from 'react-multi-carousel';
+import "react-multi-carousel/lib/styles.css";
 interface ICasts {
   casts: Cast[],
 }
@@ -9,44 +10,12 @@ const url = 'https://image.tmdb.org/t/p/w185';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
-    root: {
-      display: 'flex',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginTop: 24,
-    },
-    gridList: {
-      flexWrap: 'nowrap',
-      // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-      transform: 'translateZ(0)',
-    },
-    title: {
-      color: theme.palette.primary.light,
-    },
-    titleBar: {
-      background:
-        'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-    },
-    container: {
-      gap: '1rem',
-      overflow: 'auto',
-      maxWidth: '100rem',
-      flexWrap: 'nowrap',
-    },
     items: {
       position: 'relative',
       backgroundColor: 'black',
       '&:hover $imgTile': {
         opacity: 1,
       }
-    },
-    castImg: {
-      height: '13rem',
-    },
-    hehe: {
-      flexDirection: 'column'
     },
     imgTile: {
       position: 'absolute',
@@ -61,39 +30,85 @@ const useStyles = makeStyles((theme: Theme) => {
       display: 'inherit',
       cursor: 'pointer',
     },
+    container: {
+      width: '90rem',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginTop: 24,
+    },
+    itemClass: {
+      width: 220,
+    },
   });
 });
 
-
+const responsive = {
+  desktop: {
+    breakpoint: {
+      max: 3000,
+      min: 1024
+    },
+    items: 6,
+    partialVisibilityGutter: 40
+  },
+  mobile: {
+    breakpoint: {
+      max: 464,
+      min: 0
+    },
+    items: 1,
+    partialVisibilityGutter: 30
+  },
+  tablet: {
+    breakpoint: {
+      max: 1024,
+      min: 464
+    },
+    items: 2,
+    partialVisibilityGutter: 30
+  }
+};
 
 const Casts: React.FC<ICasts> = ({ casts }: ICasts) => {
 
-  const [isHover, setHover] = React.useState(false);
-
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Box display="flex" className={classes.hehe}>
-        <Typography variant="h5">Casts</Typography>
-        <Grid container className={classes.container}>
-          {casts && casts.map((cast) => {
-            return cast.profile_path !== null ? (
-              <Grid
-                item
-                className={classes.items}
-                onMouseEnter={() => { return setHover(true) }}
-                onMouseLeave={() => { return setHover(false) }}
-              >
-                <img src={`${url}/${cast.profile_path}`} alt="hrhr" className={classes.castImg} />
-                <Box display="flex" className={classes.imgTile}>
-                  {`${cast.name} as ${cast.character}`}
-                </Box>
-              </Grid>
-            ) : null;
-          })}
-        </Grid>
-      </Box>
-    </div>
+    <>
+      {casts && (<Carousel
+        additionalTransfrom={0}
+        arrows
+        autoPlaySpeed={3000}
+        centerMode={false}
+        className={classes.container}
+        containerClass=""
+        dotListClass=""
+        draggable
+        focusOnSelect={false}
+        infinite
+        itemClass={classes.itemClass}
+        keyBoardControl
+        minimumTouchDrag={80}
+        partialVisible
+        renderButtonGroupOutside={false}
+        renderDotsOutside={false}
+        responsive={responsive}
+        showDots={false}
+        sliderClass=""
+        slidesToSlide={1}
+        swipeable
+      >
+        {casts.map((cast) => {
+          return cast.profile_path !== null ? (
+            <Box display="flex" className={classes.items}>
+              <img src={`${url}${cast.profile_path}`} alt={cast.name} />
+              <Box display="flex" className={classes.imgTile}>
+                {`${cast.name} as ${cast.character}`}
+              </Box>
+            </Box>
+          ) : null
+        })}
+      </Carousel>)}
+    </>
   )
 }
 

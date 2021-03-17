@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import MovieLengthIcon from '@material-ui/icons/AccessTime';
 import BudgetIcon from '@material-ui/icons/AttachMoney';
 import GradeIcon from '@material-ui/icons/Grade';
-import { CircularProgressbar } from "react-circular-progressbar";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dispatchGetMovieCasts, dispatchGetMovieDetail, togglePageLoading } from '../../redux/actions/movieActions';
@@ -20,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) => {
     root: {
       display: 'flex',
       flexDirection: 'column',
+      paddingBottom: 100,
     },
     detailArea: {
       display: 'flex',
@@ -96,10 +96,14 @@ const Movie: React.FC<{}> = () => {
   const movieCasts = useSelector((state: IAppState) => { return state.movies.movieDetail.casts?.cast; });
 
   useEffect(() => {
-    dispatch(togglePageLoading(true));
-    dispatchGetMovieDetail(id);
-    dispatchGetMovieCasts(id);
-    dispatch(togglePageLoading(false));
+
+    const populate = async () => {
+      dispatch(togglePageLoading(true));
+      await dispatchGetMovieDetail(id);
+      await dispatchGetMovieCasts(id);
+      dispatch(togglePageLoading(false));
+    }
+    populate();
   }, [id, dispatch]);
 
   const getRunTime = () => {
@@ -124,56 +128,6 @@ const Movie: React.FC<{}> = () => {
     <Box display="flex" className={classes.root}>
       <Box className={classes.imgContainer}>
         <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
-        <Box display="flex" className={classes.overlayDiv}>
-          <Grid container direction="column" id="detail-container" className={classes.parentContainer}>
-            <Grid container item xs={6}>
-              <Grid container className={classes.innerContainer}>
-                <Grid item>
-                  <Typography variant="h2" className={classes.movieTitle}>
-                    {movie.title} ({movie.release_date.split('-')[0]})
-                  </Typography>
-                </Grid>
-                <Grid justify="space-evenly" container item className={classes.containerSubDetail}>
-                  <Grid item>
-                    <Typography className={classes.textSubDetail}>
-                      {getRunTime()}
-                    </Typography>
-                  </Grid>
-                  <div className={classes.vl}>
-                  </div>
-                  <Grid item>
-                    <Typography className={classes.textSubDetail}>
-                      {getGenres()}
-                    </Typography>
-                  </Grid>
-                  <div className={classes.vl}>
-                  </div>
-                  <Grid item>
-                    <Typography className={classes.textSubDetail}>
-                      {getDate()}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item className={classes.containerMainDetail}>
-                  <Typography className={classes.textMainDetail}>
-                    {movie.overview}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid container item xs={6}>
-              <Grid item>
-                <MovieLengthIcon className={classes.icon} />
-              </Grid>
-              <Grid item>
-                <BudgetIcon className={classes.icon} />
-              </Grid>
-              <Grid item>
-                <GradeIcon className={classes.icon} />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
       </Box>
       <Box className={classes.detailArea}>
         <Casts casts={movieCasts} />

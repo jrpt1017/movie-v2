@@ -9,7 +9,7 @@ import { IMovie } from '../../types/movieTypes';
 import FavEmpty from '@material-ui/icons/FavoriteBorder';
 import FavFilled from '@material-ui/icons/Favorite';
 import { IAppState } from '../../redux/store';
-import { addToFavorites, dispatchGetMovieCasts, dispatchGetMovieDetail, removeFromFavorites, togglePageLoading } from '../../redux/actions/movieActions';
+import { addToFavorites, dispatchGetMovieDetail, removeFromFavorites, togglePageLoading } from '../../redux/actions/movieActions';
 
 const url = 'https://image.tmdb.org/t/p/w1280';
 
@@ -81,7 +81,6 @@ const MovieCard: React.FC<IMovie> = (props: IMovie) => {
   const handleMovieOnClick = async (movieId: number) => {
     dispatch(togglePageLoading(true));
     await dispatchGetMovieDetail(String(movieId));
-    await dispatchGetMovieCasts(String(movieId));
     dispatch(togglePageLoading(false));
     history.push(`/movie/${movieId}`);
   };

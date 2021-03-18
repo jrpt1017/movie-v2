@@ -8,7 +8,7 @@ import BudgetIcon from '@material-ui/icons/AttachMoney';
 import GradeIcon from '@material-ui/icons/Grade';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { dispatchGetMovieCasts, dispatchGetMovieDetail, togglePageLoading } from '../../redux/actions/movieActions';
+import { dispatchGetMovieDetail, togglePageLoading } from '../../redux/actions/movieActions';
 import { IAppState } from '../../redux/store';
 import Casts from './Casts';
 import { Vid } from '../../types/movieTypes';
@@ -139,7 +139,6 @@ const Movie: React.FC<{}> = () => {
     const populate = async () => {
       dispatch(togglePageLoading(true));
       await dispatchGetMovieDetail(id);
-      await dispatchGetMovieCasts(id);
       dispatch(togglePageLoading(false));
     }
     populate();
@@ -182,7 +181,7 @@ const Movie: React.FC<{}> = () => {
         renderButtonGroupOutside={false}
         renderDotsOutside={false}
         responsive={responsive}
-        showDots={false}
+        showDots
         sliderClass=""
         slidesToSlide={1}
         swipeable
@@ -190,13 +189,15 @@ const Movie: React.FC<{}> = () => {
         <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
         {movie.videos.results.map((video: Vid) => {
           return (
-            <ReactPlayer
-              className='react-player'
-              url={`https://www.youtube.com/watch?v=${video.key}`}
-              width='100%'
-              height='100%'
-            />
-          )
+            <React.Fragment key={video.id}>
+              <ReactPlayer
+                className='react-player'
+                url={`https://www.youtube.com/watch?v=${video.key}`}
+                width='100%'
+                height='100%'
+              />
+            </React.Fragment>
+          );
         })}
       </Carousel>
       <Box className={classes.detailArea}>

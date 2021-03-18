@@ -23,7 +23,7 @@ const Footer: React.FC<{}> = () => {
   return (
     <>
       <Box display="flex" className={classes.root}>
-        <Typography className={classes.footerText}>Developed by Jonnel Tolosa.</Typography>
+        <Typography className={classes.footerText}>Designed & developed by Jonnel Tolosa.</Typography>
       </Box>
     </>
   );

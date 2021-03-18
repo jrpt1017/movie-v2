@@ -85,8 +85,8 @@ const CarouselTest: React.FC<{}> = () => {
       >
         {images.map((img) => {
           return (
-            <Box display="flex" className={classes.box}>
-              <img src={`${url}${img}`} />
+            <Box display="flex" className={classes.box} key={img}>
+              <img src={`${url}${img}`} alt={img} />
             </Box>
           )
         })}

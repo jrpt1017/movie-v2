@@ -99,7 +99,7 @@ const Casts: React.FC<ICasts> = ({ casts }: ICasts) => {
       >
         {casts.map((cast) => {
           return cast.profile_path !== null ? (
-            <Box display="flex" className={classes.items}>
+            <Box display="flex" className={classes.items} key={cast.id}>
               <img src={`${url}${cast.profile_path}`} alt={cast.name} />
               <Box display="flex" className={classes.imgTile}>
                 {`${cast.name} as ${cast.character}`}

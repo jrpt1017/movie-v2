@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => {
       cursor: 'pointer',
     },
     container: {
-      width: '90rem',
+      width: '80rem',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginTop: 24,

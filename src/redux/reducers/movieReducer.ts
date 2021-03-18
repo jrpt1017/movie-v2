@@ -29,6 +29,10 @@ const initState = {
     tagline: '',
     title: '',
     video: false,
+    videos: {
+      id: 0,
+      results: [],
+    },
     vote_average: 0,
     vote_count: 0,
     casts: {

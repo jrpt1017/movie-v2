@@ -51,6 +51,23 @@ export interface Cast {
   department?: string;
   job?: string;
 }
+
+
+export interface IVideos {
+  id: number;
+  results: Vid[];
+}
+
+export interface Vid {
+  id: string;
+  iso_639_1: string;
+  iso_3166_1: string;
+  key: string;
+  name: string;
+  site: string;
+  size: number;
+  type: string;
+}
 export interface IMovieDetail {
   adult: boolean;
   backdrop_path: string;
@@ -75,6 +92,7 @@ export interface IMovieDetail {
   tagline: string;
   title: string;
   video: boolean;
+  videos: IVideos,
   vote_average: number;
   vote_count: number;
   casts: ICasts,

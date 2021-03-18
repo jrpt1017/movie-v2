@@ -1,4 +1,7 @@
 import { createStyles, makeStyles, Theme, Box, Container, Typography, Grid } from '@material-ui/core';
+import Carousel from 'react-multi-carousel';
+import "react-multi-carousel/lib/styles.css";
+import ReactPlayer from 'react-player/youtube'
 import React, { useEffect } from 'react'
 import MovieLengthIcon from '@material-ui/icons/AccessTime';
 import BudgetIcon from '@material-ui/icons/AttachMoney';
@@ -8,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { dispatchGetMovieCasts, dispatchGetMovieDetail, togglePageLoading } from '../../redux/actions/movieActions';
 import { IAppState } from '../../redux/store';
 import Casts from './Casts';
+import { Vid } from '../../types/movieTypes';
 
 interface IMovie {
   id: string
@@ -19,7 +23,9 @@ const useStyles = makeStyles((theme: Theme) => {
     root: {
       display: 'flex',
       flexDirection: 'column',
-      paddingBottom: 100,
+      paddingRight: 100,
+      paddingLeft: 100,
+      paddingBottom: 50,
     },
     detailArea: {
       display: 'flex',
@@ -84,9 +90,42 @@ const useStyles = makeStyles((theme: Theme) => {
     icon: {
       fontSize: '7rem',
       color: '#2a2626'
-    }
+    },
+    container: {
+      width: '80rem',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginTop: 24,
+    },
+    itemClass: {
+      width: 220,
+    },
   });
-})
+});
+
+const responsive = {
+  desktop: {
+    breakpoint: {
+      max: 3000,
+      min: 1024
+    },
+    items: 1,
+  },
+  mobile: {
+    breakpoint: {
+      max: 464,
+      min: 500
+    },
+    items: 1,
+  },
+  tablet: {
+    breakpoint: {
+      max: 1024,
+      min: 464
+    },
+    items: 1,
+  },
+};
 
 const Movie: React.FC<{}> = () => {
   const { id } = useParams<IMovie>();
@@ -126,9 +165,40 @@ const Movie: React.FC<{}> = () => {
 
   return (
     <Box display="flex" className={classes.root}>
-      <Box className={classes.imgContainer}>
+      <Carousel
+        additionalTransfrom={0}
+        arrows
+        autoPlaySpeed={3000}
+        centerMode={false}
+        className={classes.imgContainer}
+        containerClass=""
+        dotListClass=""
+        draggable
+        focusOnSelect={false}
+        infinite
+        keyBoardControl
+        minimumTouchDrag={80}
+        partialVisible
+        renderButtonGroupOutside={false}
+        renderDotsOutside={false}
+        responsive={responsive}
+        showDots={false}
+        sliderClass=""
+        slidesToSlide={1}
+        swipeable
+      >
         <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
-      </Box>
+        {movie.videos.results.map((video: Vid) => {
+          return (
+            <ReactPlayer
+              className='react-player'
+              url={`https://www.youtube.com/watch?v=${video.key}`}
+              width='100%'
+              height='100%'
+            />
+          )
+        })}
+      </Carousel>
       <Box className={classes.detailArea}>
         <Casts casts={movieCasts} />
       </Box>

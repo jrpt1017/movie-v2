@@ -9,6 +9,7 @@ import GradeIcon from '@material-ui/icons/Grade';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { dispatchGetMovieDetail, togglePageLoading } from '../../redux/actions/movieActions';
+import MovieOverview from './MovieOverview';
 import { IAppState } from '../../redux/store';
 import Casts from './Casts';
 import { Vid } from '../../types/movieTypes';
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     detailArea: {
       display: 'flex',
+      flexDirection: 'column',
     },
     imgContainer: {
       display: 'flex',
@@ -51,11 +53,6 @@ const useStyles = makeStyles((theme: Theme) => {
       paddingLeft: 10,
       paddingRight: 10,
       backdropFilter: 'blur(20px)',
-    },
-    movieTitle: {
-      fontWeight: 'bold',
-      fontSize: '2.5vw',
-      color: '#2a2626',
     },
     containerSubDetail: {
       gap: '2em',
@@ -99,6 +96,20 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     itemClass: {
       width: 220,
+    },
+    movieTitleContainer: {
+      margin: 'auto',
+      paddingTop: 16,
+    },
+    movieTitle: {
+      fontWeight: 'bold',
+      fontSize: '2.5vw',
+      textAlign: 'center',
+    },
+    movieTagLine: {
+      textAlign: 'center',
+      fontSize: '1.0vw',
+      fontStyle: 'italic',
     },
   });
 });
@@ -144,26 +155,12 @@ const Movie: React.FC<{}> = () => {
     populate();
   }, [id, dispatch]);
 
-  const getRunTime = () => {
-    const hrs = Math.floor(movie.runtime / 60);
-    const minutes = movie.runtime % 60;
-
-    return `${hrs}hr ${minutes}min`;
-  };
-
-  const getGenres = () => {
-    return movie.genres.map((genre) => {
-      return genre.name;
-    }).slice(0, 3).join(', ');
-  };
-
-  const getDate = () => {
-    const date = new Date(movie.release_date);
-    return date.toDateString();
-  };
-
   return (
     <Box display="flex" className={classes.root}>
+      <div className={classes.movieTitleContainer}>
+        <Typography className={classes.movieTitle}>{movie.title}</Typography>
+        <Typography className={classes.movieTagLine}>{movie.tagline}</Typography>
+      </div>
       <Carousel
         additionalTransfrom={0}
         arrows
@@ -202,6 +199,7 @@ const Movie: React.FC<{}> = () => {
       </Carousel>
       <Box className={classes.detailArea}>
         <Casts casts={movieCasts} />
+        <MovieOverview movie={movie} />
       </Box>
     </Box >
   )

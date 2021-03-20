@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => {
     },
     chip: {
       backgroundColor: '#e5b31d',
-      color: 'white',
+      color: '#303030',
     },
     title: {
       fontSize: '1rem',

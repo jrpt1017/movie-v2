@@ -92,6 +92,24 @@ const MovieOverview: React.FC<IMovieOverview> = ({ movie }: IMovieOverview) => {
               );
             })}
           </Grid>
+          <Typography className={`${classes.label} ${classes.rightGridText}`}>
+            Release Date:
+            <Typography component="span" className={classes.labelText}>
+              {getDate()}
+            </Typography>
+          </Typography>
+          <Typography className={`${classes.label} ${classes.rightGridText}`}>
+            Runtime:
+            <Typography component="span" className={classes.labelText}>
+              {getRunTime()}
+            </Typography>
+          </Typography>
+          <Typography className={`${classes.label} ${classes.rightGridText}`}>
+            Budget:
+            <Typography component="span" className={classes.labelText}>
+              {movie.budget === 0 ? 'Undisclosed Budget' : '$ ' + movie.budget}
+            </Typography>
+          </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography className={`${classes.label} ${classes.rightGridText}`}>

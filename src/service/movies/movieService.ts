@@ -31,7 +31,8 @@ export const getMovieDetails = async (id: string) => {
     // const params = new URLSearchParams();
     // params.append('api_key', key);
     // const url = '&append_to_response=videos';
-    const movie = await axios.get(`${baseUrl}/movie/${id}?api_key=${key}&append_to_response=videos,casts`);
+    const movie = await axios.get(`${baseUrl}/movie/${id}?api_key=${key}&append_to_response=videos,casts,reviews`);
+    console.log(movie.data.reviews)
     return movie.data;
   } catch (error) {
     console.log(error.message);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createStyles, makeStyles, Theme, Grid, Box, Typography, Chip } from '@material-ui/core';
 import { IAppState } from '../../redux/store';
 import { ISimilarMovie, ISimilarMovieItem } from '../../types/movieTypes';
@@ -47,9 +48,11 @@ const SimilarMovies: React.FC<ISimilarMovieComponent> = ({ movies }: ISimilarMov
         <Box display="flex" className={classes.movieContainer}>
           {movies.slice(0, 4).map((item: ISimilarMovieItem) => {
             return (
-              <Box display="flex" className={classes.movieItem}>
-                <img src={`${url}/${item.poster_path}`} alt={item.id.toString()} className={classes.image} />
-              </Box>
+              <Link to={`/movie/${item.id}`}>
+                <Box display="flex" className={classes.movieItem}>
+                  <img src={`${url}/${item.poster_path}`} alt={item.id.toString()} className={classes.image} />
+                </Box>
+              </Link>
             )
           })}
         </Box>

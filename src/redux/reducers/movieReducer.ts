@@ -22,6 +22,12 @@ const initState = {
     production_companies: [],
     production_countries: [],
     release_date: '',
+    similar: {
+      page: 0,
+      results: [],
+      total_pages: 0,
+      total_results: 0,
+    },
     revenue: 0,
     runtime: 0,
     spoken_languages: [],

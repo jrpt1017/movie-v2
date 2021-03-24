@@ -144,6 +144,7 @@ const Movie: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const movie = useSelector((state: IAppState) => { return state.movies.movieDetail; });
   const movieCasts = useSelector((state: IAppState) => { return state.movies.movieDetail.casts?.cast; });
+  const similarMovies = useSelector((state: IAppState) => { return state.movies.movieDetail.similar.results; });
 
   useEffect(() => {
 
@@ -199,7 +200,7 @@ const Movie: React.FC<{}> = () => {
       </Carousel>
       <Box className={classes.detailArea}>
         <Casts casts={movieCasts} />
-        <MovieOverview movie={movie} />
+        <MovieOverview movie={movie} similarMovies={similarMovies} />
       </Box>
     </Box >
   )

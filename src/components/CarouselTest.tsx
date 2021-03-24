@@ -1,16 +1,25 @@
-import { Box, createStyles, Grid, GridList, makeStyles, Theme } from '@material-ui/core';
+import {
+  Box, createStyles, Grid, GridList, makeStyles, Theme,
+  Card, CardActionArea, CardMedia, CardContent, Typography, Button, CardActions,
+} from '@material-ui/core';
 import React, { useEffect } from 'react'
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
+    root: {
+      maxWidth: 345,
+    },
+    media: {
+      width: '100%',
+      height: 'auto',
+    },
     container: {
       width: '90rem',
-      // height: '10rem',
     },
     itemClass: {
-      width: 220,
+      width: '8rem !important',
     },
     box: {
       gap: 2,
@@ -20,12 +29,12 @@ const useStyles = makeStyles((theme: Theme) => {
 const url = 'https://image.tmdb.org/t/p/w185';
 
 const images = [
-  '/l5AKkg3H1QhMuXmTTmq1EyjyiRb.jpg',
-  '/v2daUrk7hZryH6vtCWK9ESf6gAG.jpg',
-  '/bzvi6adMl3zmzC7gWhS4cmO61S4.jpg',
-  '/r5yu8cnSaVA36j0CTSC8TjiYYE5.jpg',
-  '/aXbTKgL4u6oVumQ459B9VkGTn4A.jpg',
-  '/ukmfsl59Isvn9odgzMWBidA3cmt.jpg',
+  // '/l5AKkg3H1QhMuXmTTmq1EyjyiRb.jpg',
+  // '/v2daUrk7hZryH6vtCWK9ESf6gAG.jpg',
+  // '/bzvi6adMl3zmzC7gWhS4cmO61S4.jpg',
+  // '/r5yu8cnSaVA36j0CTSC8TjiYYE5.jpg',
+  // '/aXbTKgL4u6oVumQ459B9VkGTn4A.jpg',
+  // '/ukmfsl59Isvn9odgzMWBidA3cmt.jpg',
   '/bEd5FvgkrZloJ0Vb9A3ijEwEV5f.jpg'
 ];
 
@@ -34,7 +43,7 @@ const CarouselTest: React.FC<{}> = () => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div style={{ margin: 40 }}>
       <Carousel
         additionalTransfrom={0}
         arrows
@@ -85,9 +94,28 @@ const CarouselTest: React.FC<{}> = () => {
       >
         {images.map((img) => {
           return (
-            <Box display="flex" className={classes.box} key={img}>
-              <img src={`${url}${img}`} alt={img} />
-            </Box>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  alt="Contemplative Reptile"
+                  height="140"
+                  src={`${url}${img}`}
+                  title="Contemplative Reptile"
+                  classes={{
+                    media: classes.media,
+                  }}
+                />
+                <CardContent>
+                  <Typography >
+                    Tony Stark
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    Robert Downey
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
           )
         })}
       </Carousel>

@@ -28,11 +28,8 @@ export const getGenres = async (): Promise<IGenre[] | undefined> => {
 
 export const getMovieDetails = async (id: string) => {
   try {
-    // const params = new URLSearchParams();
-    // params.append('api_key', key);
-    // const url = '&append_to_response=videos';
-    const movie = await axios.get(`${baseUrl}/movie/${id}?api_key=${key}&append_to_response=videos,casts,reviews`);
-    console.log(movie.data.reviews)
+    const movie = await axios.get(`${baseUrl}/movie/${id}?api_key=${key}&append_to_response=videos,casts,reviews,similar`);
+    // console.log(JSON.stringify(movie.data.similar))
     return movie.data;
   } catch (error) {
     console.log(error.message);

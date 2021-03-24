@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme, Grid, Box, Typography, Chip } from '@material-ui/core';
 import React from 'react';
-import { IMovieDetail } from '../../types/movieTypes';
+import SimilarMovies from './SimilarMovies';
+import { IMovieDetail, ISimilarMovieItem } from '../../types/movieTypes';
 
 const useStyles = makeStyles((theme: Theme) => {
   return createStyles({
@@ -59,9 +60,10 @@ const useStyles = makeStyles((theme: Theme) => {
 
 interface IMovieOverview {
   movie: IMovieDetail,
+  similarMovies: ISimilarMovieItem[],
 }
 
-const MovieOverview: React.FC<IMovieOverview> = ({ movie }: IMovieOverview) => {
+const MovieOverview: React.FC<IMovieOverview> = ({ movie, similarMovies }: IMovieOverview) => {
   const classes = useStyles();
 
   const getRunTime = () => {
@@ -112,24 +114,7 @@ const MovieOverview: React.FC<IMovieOverview> = ({ movie }: IMovieOverview) => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography className={`${classes.label} ${classes.rightGridText}`}>
-            Release Date:
-            <Typography component="span" className={classes.labelText}>
-              {getDate()}
-            </Typography>
-          </Typography>
-          <Typography className={`${classes.label} ${classes.rightGridText}`}>
-            Runtime:
-            <Typography component="span" className={classes.labelText}>
-              {getRunTime()}
-            </Typography>
-          </Typography>
-          <Typography className={`${classes.label} ${classes.rightGridText}`}>
-            Budget:
-            <Typography component="span" className={classes.labelText}>
-              ${movie.budget}
-            </Typography>
-          </Typography>
+          <SimilarMovies movies={similarMovies} />
         </Grid>
       </Grid>
     </React.Fragment >

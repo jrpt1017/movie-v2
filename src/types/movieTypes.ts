@@ -68,35 +68,6 @@ export interface Vid {
   size: number;
   type: string;
 }
-export interface IMovieDetail {
-  adult: boolean;
-  backdrop_path: string;
-  belongs_to_collection: null;
-  budget: number;
-  genres: Genre[];
-  homepage: string;
-  id: number;
-  imdb_id: string;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  production_companies: ProductionCompany[];
-  production_countries: ProductionCountry[];
-  release_date: string;
-  revenue: number;
-  runtime: number;
-  spoken_languages: SpokenLanguage[];
-  status: string;
-  tagline: string;
-  title: string;
-  video: boolean;
-  videos: IVideos,
-  vote_average: number;
-  vote_count: number;
-  casts: ICasts,
-}
 
 export interface Genre {
   id: number;
@@ -119,5 +90,64 @@ export interface SpokenLanguage {
   english_name: string;
   iso_639_1: string;
   name: string;
+}
+
+export interface ISimilarMovie {
+  page: number;
+  results: ISimilarMovieItem[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface ISimilarMovieItem {
+  video: boolean;
+  vote_average: number;
+  overview: string;
+  release_date?: string;
+  adult: boolean;
+  backdrop_path: string;
+  vote_count: number;
+  genre_ids: number[];
+  title: string;
+  original_language: OriginalLanguage;
+  original_title: string;
+  poster_path: string;
+  id: number;
+  popularity: number;
+}
+
+export enum OriginalLanguage {
+  En = "en",
+}
+
+export interface IMovieDetail {
+  adult: boolean;
+  backdrop_path: string;
+  belongs_to_collection: null;
+  budget: number;
+  genres: Genre[];
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: ProductionCompany[];
+  production_countries: ProductionCountry[];
+  release_date: string;
+  similar: ISimilarMovie;
+  revenue: number;
+  runtime: number;
+  spoken_languages: SpokenLanguage[];
+  status: string;
+  tagline: string;
+  title: string;
+  video: boolean;
+  videos: IVideos,
+  vote_average: number;
+  vote_count: number;
+  casts: ICasts,
 }
 

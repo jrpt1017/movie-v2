@@ -121,37 +121,31 @@ const Casts: React.FC<ICasts> = ({ casts }: ICasts) => {
         swipeable
       >
         {casts.map((cast) => {
-          // return cast.profile_path !== null ? (
-          //   <Box display="flex" className={classes.items} key={cast.id}>
-          //     <img src={`${url}${cast.profile_path}`} alt={cast.name} />
-          //     <Box display="flex" className={classes.imgTile}>
-          //       {`${cast.name} as ${cast.character}`}
-          //     </Box>
-          //   </Box>
-          // ) : null
           return cast.profile_path !== null ? (
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  alt={cast.name}
-                  height="140"
-                  src={`${url}${cast.profile_path}`}
-                  title={cast.name}
-                  classes={{
-                    media: classes.media,
-                  }}
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography className={`${classes.castText} ${classes.characterNameText}`}>
-                    {cast.character}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p" className={classes.castText}>
-                    {cast.name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+            <React.Fragment key={cast.id}>
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    alt={cast.name}
+                    height="140"
+                    src={`${url}${cast.profile_path}`}
+                    title={cast.name}
+                    classes={{
+                      media: classes.media,
+                    }}
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography className={`${classes.castText} ${classes.characterNameText}`}>
+                      {cast.character}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" className={classes.castText}>
+                      {cast.name}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </React.Fragment>
           ) : null
         })}
       </Carousel>)}

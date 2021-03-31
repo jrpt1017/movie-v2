@@ -1,4 +1,6 @@
-import { createStyles, makeStyles, Theme, Box, Container, Typography, Grid } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Box, Container, Typography, Grid, Fab } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { find } from 'lodash';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 import ReactPlayer from 'react-player/youtube'
@@ -111,6 +113,22 @@ const useStyles = makeStyles((theme: Theme) => {
       fontSize: '1.0vw',
       fontStyle: 'italic',
     },
+    rating: {
+      color: 'white',
+    },
+    fab: {
+      position: 'absolute',
+      right: '-24px',
+      zIndex: 1,
+      backgroundColor: '#e4b31e'
+    },
+    carouselContainer: {
+      position: 'relative',
+    },
+    voteAverageText: {
+      fontSize: '1.25rem',
+      fontWeight: 'bold',
+    },
   });
 });
 
@@ -144,7 +162,18 @@ const Movie: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const movie = useSelector((state: IAppState) => { return state.movies.movieDetail; });
   const movieCasts = useSelector((state: IAppState) => { return state.movies.movieDetail.casts?.cast; });
+  const crew = useSelector((state: IAppState) => { return state.movies.movieDetail.casts?.crew; });
   const similarMovies = useSelector((state: IAppState) => { return state.movies.movieDetail.similar.results; });
+  // console.log(crew);
+  const getDirector = () => {
+    // return find(crew, (item) => {
+    //   return item.job?.toLowerCase() === 'director';
+    // });
+    return crew.filter((item) => {
+      return item.job?.toLowerCase() === 'director';
+    })
+  };
+  console.log(getDirector());
 
   useEffect(() => {
 
@@ -162,44 +191,49 @@ const Movie: React.FC<{}> = () => {
         <Typography className={classes.movieTitle}>{movie.title}</Typography>
         <Typography className={classes.movieTagLine}>{movie.tagline}</Typography>
       </div>
-      <Carousel
-        additionalTransfrom={0}
-        arrows
-        autoPlaySpeed={3000}
-        centerMode={false}
-        className={classes.imgContainer}
-        containerClass=""
-        dotListClass=""
-        draggable
-        focusOnSelect={false}
-        infinite
-        keyBoardControl
-        minimumTouchDrag={80}
-        partialVisible
-        renderButtonGroupOutside={false}
-        renderDotsOutside={false}
-        responsive={responsive}
-        showDots
-        sliderClass=""
-        slidesToSlide={1}
-        swipeable
-      >
-        <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
-        {movie.videos.results.map((video: Vid) => {
-          return (
-            <React.Fragment key={video.id}>
-              <ReactPlayer
-                className='react-player'
-                url={`https://www.youtube.com/watch?v=${video.key}`}
-                width='100%'
-                height='100%'
-              />
-            </React.Fragment>
-          );
-        })}
-      </Carousel>
+      <Box className={classes.carouselContainer}>
+        <Fab size="large" aria-label="like" className={classes.fab}>
+          <Typography className={classes.voteAverageText}>{movie.vote_average}</Typography>
+        </Fab>
+        <Carousel
+          additionalTransfrom={0}
+          arrows
+          autoPlaySpeed={3000}
+          centerMode={false}
+          className={classes.imgContainer}
+          containerClass=""
+          dotListClass=""
+          draggable
+          focusOnSelect={false}
+          infinite
+          keyBoardControl
+          minimumTouchDrag={80}
+          partialVisible
+          renderButtonGroupOutside={false}
+          renderDotsOutside={false}
+          responsive={responsive}
+          showDots
+          sliderClass=""
+          slidesToSlide={1}
+          swipeable
+        >
+          <img src={`${url}/${movie.backdrop_path}`} alt="sample" className={classes.img} />
+          {movie.videos.results.map((video: Vid) => {
+            return (
+              <React.Fragment key={video.id}>
+                <ReactPlayer
+                  className='react-player'
+                  url={`https://www.youtube.com/watch?v=${video.key}`}
+                  width='100%'
+                  height='100%'
+                />
+              </React.Fragment>
+            );
+          })}
+        </Carousel>
+      </Box>
       <Box className={classes.detailArea}>
-        <Casts casts={movieCasts} />
+        {/* <Casts casts={movieCasts} /> */}
         <MovieOverview movie={movie} similarMovies={similarMovies} />
       </Box>
     </Box >

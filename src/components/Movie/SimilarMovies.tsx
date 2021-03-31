@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createStyles, makeStyles, Theme, Grid, Box, Typography, Chip } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Grid, Box, Typography, Chip, Card, CardContent } from '@material-ui/core';
 import { IAppState } from '../../redux/store';
 import { ISimilarMovie, ISimilarMovieItem } from '../../types/movieTypes';
 
@@ -43,17 +43,19 @@ const SimilarMovies: React.FC<ISimilarMovieComponent> = ({ movies }: ISimilarMov
     <React.Fragment>
       <Box display="flex" className={classes.root}>
         <Box display="flex">
-          <Typography gutterBottom className={classes.title}>Similar movies</Typography>
+          <Typography gutterBottom className={classes.title}>{movies.length === 0 ? 'No similar movies found' : 'Similar movies'}</Typography>
         </Box>
         <Box display="flex" className={classes.movieContainer}>
           {movies.slice(0, 4).map((item: ISimilarMovieItem) => {
             return (
-              <Link to={`/movie/${item.id}`}>
-                <Box display="flex" className={classes.movieItem}>
-                  <img src={`${url}/${item.poster_path}`} alt={item.id.toString()} className={classes.image} />
-                </Box>
-              </Link>
-            )
+              <React.Fragment key={item.id}>
+                <Link to={`/movie/${item.id}`}>
+                  <Box display="flex" className={classes.movieItem}>
+                    <img src={`${url}/${item.poster_path}`} alt={item.id.toString()} className={classes.image} />
+                  </Box>
+                </Link>
+              </React.Fragment>
+            );
           })}
         </Box>
       </Box>
